@@ -213,7 +213,7 @@ def message():
         cursor = db.cursor(dictionary=True)  # Utilisez dictionary=True pour obtenir des résultats sous forme de dictionnaires
         
         # Récupérer tous les messages
-        cursor.execute("SELECT * FROM message ORDER BY id DESC")  # Supposons que vous avez un champ 'id' pour trier
+        cursor.execute("SELECT * FROM message ORDER BY id DESC")  # Trie par  'id' 
         messages = cursor.fetchall()
         
         return render_template('Dashboard/message.html', messages=messages)
@@ -280,7 +280,7 @@ import io
 from datetime import datetime
 
 from flask import make_response
-from reportlab.lib.pagesizes import letter  # Ajoutez cet import
+from reportlab.lib.pagesizes import letter  
 from reportlab.pdfgen import canvas
 import io
 from datetime import datetime
@@ -304,7 +304,7 @@ def download_report():
         cursor.execute("SELECT COUNT(*) AS total FROM plantes WHERE est_recoltee = 1")
         recoltes = cursor.fetchone()['total']
         
-        # CORRECTION: Utilisation de 'montant' au lieu de 'prix_total'
+        # CORRECTION: Utilisation de 'montant'
         cursor.execute("SELECT COALESCE(SUM(montant), 0) AS total FROM ventes")
         ventes = cursor.fetchone()['total']
         
@@ -369,9 +369,6 @@ def deconnexion():
     return redirect(url_for('index'))
 
 # Nombre de message reçu
-
-
-
 @app.route('/get_message_count')
 def get_message_count():
     if not session.get('logged_in'):
@@ -404,8 +401,6 @@ def produits():
 
 
 # Ajouter plantes
-
-
 @app.route('/plantes/Ad_plantes/', methods=['GET', 'POST'])
 def Ajouter():
     if not session.get('logged_in'):
@@ -626,8 +621,6 @@ def ventes():
 
 
     # Stock
-
-
 from datetime import datetime
 from flask import render_template, request, redirect, url_for, flash, session
 import mysql.connector
@@ -837,36 +830,6 @@ def recoltes():
     finally:
         cursor.close()
         db.close()
-
-# @app.route('/parcelles')
-# def parcelles():
-#     if not session.get('logged_in'):
-#         return redirect(url_for('login'))
-    
-#     try:
-        
-#         emplacements = ["Nord", "Sud", "Est", "Ouest", "Centre", "Serre A", "Serre B"]
-#         tailles = [100, 150, 200, 250, 300,120,320,520,160,400,600,800]
-        
-    
-#         nombre_parcelles = random.randint(9, 20)
-#         parcelles = [{
-#             'id': i,
-#             'taille': random.choice(tailles),
-#             'emplacement': f"{random.choice(emplacements)}-{random.randint(1, 20)}",
-#             'plantes': []
-#         } for i in range(1, nombre_parcelles + 1)]
-        
-#         return render_template(
-#             "Dashboard/parcelles.html",
-#             parcelles=parcelles,
-#             current_page='parcelles' 
-#         )
-        
-#     except Exception as e:
-#         app.logger.error(f"Erreur : {str(e)}")
-#         flash("Erreur lors de la génération des parcelles", "error")
-#         return redirect(url_for('dashboard'))
 
 
 @app.route('/Dashboard/parcelles')
