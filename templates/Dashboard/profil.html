@@ -1,0 +1,27 @@
+<!-- profil.html -->
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+    <h1>Mon Profil</h1>
+    
+    <div class="card">
+        <div class="card-body">
+            <h5 class="card-title">{{ user_data.name }}</h5>
+            <p class="card-text">
+                <strong>Email:</strong> {{ user_data.email }}<br>
+                <strong>Téléphone:</strong> {{ user_data.phone or 'Non renseigné' }}<br>
+                <strong>Genre:</strong> {{ user_data.genre or 'Non renseigné' }}<br>
+            </p>
+            
+            <h5>Informations supplémentaires:</h5>
+            <p>Membre depuis: {{ user_data.created_at.strftime('%d/%m/%Y') }}</p>
+            
+            <!-- Bouton d'édition -->
+            <a href="{{ url_for('edit_profil') }}" class="btn btn-primary">
+                Modifier mon profil
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %}

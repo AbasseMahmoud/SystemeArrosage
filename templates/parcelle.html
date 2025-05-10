@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestion des Parcelles</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            background-color: #f8f9fa;
+            padding-top: 20px;
+        }
+        .parcelle-card {
+            margin-bottom: 20px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            border-radius: 10px;
+        }
+        .plante-item {
+            border-left: 4px solid #28a745;
+            padding-left: 15px;
+            margin-bottom: 10px;
+        }
+        .progress {
+            height: 20px;
+            margin-bottom: 10px;
+        }
+        .health-indicator {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            display: inline-block;
+            margin-right: 5px;
+        }
+        .health-good {
+            background-color: #28a745;
+        }
+        .health-medium {
+            background-color: #ffc107;
+        }
+        .health-bad {
+            background-color: #dc3545;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="mb-4"><i class="fas fa-tractor me-2"></i>Gestion des Parcelles</h1>
+        
+        <div class="row">
+            {% for parcelle in parcelles %}
+            <div class="col-md-6">
+                <div class="card parcelle-card">
+                    <div class="card-header bg-primary text-white">
+                        <h5>Parcelle #{{ parcelle.id }} - {{ parcelle.taille }} m²</h5>
+                    </div>
+                    <div class="card-body">
+                        {% if parcelle.plantes %}
+                            <h6 class="card-subtitle mb-3">Plantes cultivées :</h6>
+                            {% for plante in parcelle.plantes %}
+                                <div class="plante-item">
+                                    <h6>{{ plante.type }}</h6>
+                                    <div>
+                                        <small class="text-muted">
+                                            Planté le: {{ plante.date_plantation }}
+                                            {% if plante.date_recolte %}
+                                                | Récolté le: {{ plante.date_recolte }}
+                                            {% endif %}
+                                        </small>
+                                    </div>
+                                    
+                                    <div class="mt-2">
+                                        <span>Croissance:</span>
+                                        <div class="progress">
+                                            <div class="progress-bar bg-success" 
+                                                 role="progressbar" 
+                                                {{ plante.croissance }}% > 
+                                                 aria-valuenow="{{ plante.croissance }}" 
+                                                 aria-valuemin="0" 
+                                                 aria-valuemax="100">
+                                                {{ plante.croissance }}%
+                                            </>
+                                        </div>
+                                    </div>
+                                    
+                                    <div>
+                                        <span>Santé:</span>
+                                        <span class="health-indicator 
+                                            {% if plante.sante > 70 %}health-good
+                                            {% elif plante.sante > 30 %}health-medium
+                                            {% else %}health-bad
+                                            {% endif %}"></span>
+                                        {{ plante.sante }}%
+                                    </div>
+                                    
+                                    <div class="mt-2">
+                                        <span class="badge 
+                                            {% if plante.est_recoltee %}bg-success
+                                            {% else %}bg-warning text-dark
+                                            {% endif %}">
+                                            {% if plante.est_recoltee %}
+                                                Récoltée
+                                            {% else %}
+                                                En croissance
+                                            {% endif %}
+                                        </span>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        {% else %}
+                            <p class="text-muted">Aucune plante dans cette parcelle</p>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

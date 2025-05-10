@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inscription - AgriConnect</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #2e7d32;
+            --primary-dark: #1b5e20;
+            --secondary: #f5f5f5;
+            --accent: #ffab00;
+            --text: #333333;
+            --light-gray: #f8f9fa;
+        }
+        
+        body {
+            background: url('https://images.unsplash.com/photo-1500382017468-9049fed747ef?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80') no-repeat center center fixed;
+            background-size: cover;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Poppins', sans-serif;
+            padding: 1rem;
+        }
+        
+        .register-container {
+            width: 100%;
+            max-width: 500px;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+            padding: 2.5rem;
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .register-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        
+        .register-header h2 {
+            color: var(--primary);
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            font-size: 2rem;
+            letter-spacing: -0.5px;
+        }
+        
+        .register-header p {
+            color: var(--text);
+            opacity: 0.8;
+        }
+        
+        .logo {
+            width: 80px;
+            height: 80px;
+            background: var(--primary);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1rem;
+            font-size: 2rem;
+            box-shadow: 0 4px 12px rgba(46, 125, 50, 0.3);
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+            position: relative;
+        }
+        
+        .form-label {
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+            display: block;
+            color: var(--text);
+            font-size: 0.95rem;
+        }
+        
+        .form-control {
+            border-radius: 10px;
+            padding: 0.85rem 1rem;
+            border: 1px solid #e0e0e0;
+            transition: all 0.3s;
+            font-size: 0.95rem;
+        }
+        
+        .form-control:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 0.25rem rgba(46, 125, 50, 0.25);
+        }
+        
+        .input-icon {
+            position: relative;
+        }
+        
+        .input-icon i {
+            position: absolute;
+            left: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--primary);
+        }
+        
+        .input-icon input {
+            padding-left: 2.75rem;
+        }
+        
+        .btn-register {
+            background: var(--primary);
+            border: none;
+            padding: 0.85rem;
+            font-weight: 600;
+            margin-top: 0.5rem;
+            transition: all 0.3s;
+            border-radius: 10px;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            font-size: 0.95rem;
+        }
+        
+        .btn-register:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(46, 125, 50, 0.3);
+        }
+        
+        .btn-register:active {
+            transform: translateY(0);
+        }
+        
+        .login-link {
+            text-align: center;
+            margin-top: 2rem;
+            font-size: 0.95rem;
+            color: var(--text);
+        }
+        
+        .login-link a {
+            color: var(--primary);
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+        
+        .login-link a:hover {
+            color: var(--primary-dark);
+            text-decoration: underline;
+        }
+        
+        .divider {
+            display: flex;
+            align-items: center;
+            margin: 1.5rem 0;
+            color: #999;
+            font-size: 0.9rem;
+        }
+        
+        .divider::before, .divider::after {
+            content: "";
+            flex: 1;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        
+        .divider::before {
+            margin-right: 1rem;
+        }
+        
+        .divider::after {
+            margin-left: 1rem;
+        }
+        
+        @media (max-width: 576px) {
+            .register-container {
+                padding: 1.75rem;
+            }
+            
+            .register-header h2 {
+                font-size: 1.75rem;
+            }
+            
+            .logo {
+                width: 70px;
+                height: 70px;
+                font-size: 1.75rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="register-container">
+        <div class="register-header">
+            <div class="logo">
+                <i class="fas fa-leaf"></i>
+            </div>
+            <h2>Rejoindre AgriConnect</h2>
+            <p>Gérez votre exploitation agricole en toute simplicité</p>
+        </div>
+        
+        <form method="POST" novalidate>
+            <div class="form-group">
+                <label for="name" class="form-label">Nom complet</label>
+                <div class="input-icon">
+                    <i class="fas fa-user"></i>
+                    <input type="text" class="form-control" id="name" name="name" placeholder="Jean Dupont" required>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label for="email" class="form-label">Adresse email</label>
+                <div class="input-icon">
+                    <i class="fas fa-envelope"></i>
+                    <input type="email" class="form-control" id="email" name="email" placeholder="exemple@agriculture.com" required>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label for="phone" class="form-label">Téléphone</label>
+                <div class="input-icon">
+                    <i class="fas fa-phone"></i>
+                    <input type="tel" class="form-control" id="phone" name="phone" placeholder="+221 78 145 49 10" required>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label for="password" class="form-label">Mot de passe</label>
+                <div class="input-icon">
+                    <i class="fas fa-lock"></i>
+                    <input type="password" class="form-control" id="password" name="password" placeholder="••••••••" required>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="password" class="form-label"> Confirmer Mot de passe</label>
+                <div class="input-icon">
+                    <i class="fas fa-lock"></i>
+                    <input type="password" class="form-control" id="password" name="passwordcf" placeholder="••••••••" required>
+                </div>
+            </div>
+            
+            <div class="form-group form-check">
+                <input type="checkbox" class="form-check-input" id="terms" required>
+                <label class="form-check-label" for="terms">J'accepte les <a href="#" class="text-primary">conditions d'utilisation</a></label>
+            </div>
+            
+            <button type="submit" class="btn btn-primary btn-register w-100">
+                <i class="fas fa-user-plus me-2"></i>Créer mon compte
+            </button>
+            
+            <div class="divider">OU</div>
+            
+            <button type="button" class="btn btn-outline-secondary w-100 mb-3" style="border-radius: 10px; padding: 0.75rem;">
+                <i class="fab fa-google me-2"></i>S'inscrire avec Google
+            </button>
+            
+            <div class="login-link">
+                Vous avez déjà un compte ? <a href="/Inscription">Connectez-vous</a>
+            </div>
+        </form>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,85 @@
+{% include "Dashboard/dashboard1.html" %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2>Gestion des Ventes</h2>
+    
+    <!-- Formulaire d'ajout -->
+    <div class="card mb-4">
+        <div class="card-header">
+            <h5>Nouvelle Vente</h5>
+        </div>
+        <div class="card-body">
+            <form method="POST" action="{{ url_for('ventes') }}">
+                <!-- Suppression de la ligne avec form.hidden_tag() -->
+                
+                <div class="row g-3">
+                    <div class="col-md-3">
+                        <label for="date_vente" class="form-label">Date</label>
+                        <!-- Modifiez cette partie du formulaire -->
+                        <input type="date" class="form-control" id="date_vente" name="date_vente" 
+                        value="{{ current_date }}" required>
+                    </div>
+                    
+                    <div class="col-md-3">
+                        <label for="type_plante" class="form-label">Type de Plante</label>
+                        <select class="form-select" id="type_plante" name="type_plante" required>
+                            <option value="">Sélectionner...</option>
+                            {% for type in types_plantes %}
+                                <option value="{{ type }}">{{ type }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    
+                    <div class="col-md-2">
+                        <label for="quantite" class="form-label">Quantité (kg)</label>
+                        <input type="number" step="0.01" class="form-control" id="quantite" name="quantite" required>
+                    </div>
+                    
+                    <div class="col-md-2">
+                        <label for="montant" class="form-label">Montant (FCFA)</label>
+                        <input type="number" step="0.01" class="form-control" id="montant" name="montant" required>
+                    </div>
+                    
+                    <div class="col-md-2 d-flex align-items-end">
+                        <button type="submit" class="btn btn-primary w-100">Enregistrer</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    <!-- Tableau des ventes -->
+    <div class="card">
+        <div class="card-header">
+            <h5>Historique des Ventes</h5>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Date</th>
+                            <th>Type</th>
+                            <th>Quantité (kg)</th>
+                            <th>Montant (FCFA)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for vente in ventes %}
+                        <tr>
+                            <td>{{ vente.id }}</td>
+                            <td>{{ vente.date_vente.strftime('%d/%m/%Y') }}</td>
+                            <td>{{ vente.type_plante }}</td>
+                            <td>{{ "%.2f"|format(vente.quantite) }}</td>
+                            <td>{{ "%.2f"|format(vente.montant) }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

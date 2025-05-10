@@ -1,0 +1,47 @@
+{% include 'Dashboard/dashboard.html'%}
+{% block content %}
+<div class="container-fluid">
+    <!-- Section des parcelles -->
+    <div class="row mt-4">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header bg-primary text-white">
+                    <h4><i class="fas fa-map-marked-alt"></i> Parcelles Récentes</h4>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Taille (m²)</th>
+                                    <th>Emplacement</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for parcelle in parcelles %}
+                                <tr>
+                                    <td>{{ parcelle.id }}</td>
+                                    <td>{{ parcelle.taille }}</td>
+                                    <td>{{ parcelle.emplacement }}</td>
+                                    <td>
+                                        <a href="#" class="btn btn-sm btn-info">
+                                            <i class="fas fa-eye"></i> Voir
+                                        </a>
+                                    </td>
+                                </tr>
+                                {% else %}
+                                <tr>
+                                    <td colspan="4" class="text-center">Aucune parcelle disponible</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

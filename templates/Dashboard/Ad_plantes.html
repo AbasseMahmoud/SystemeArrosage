@@ -1,0 +1,125 @@
+{% include 'Dashboard/dashboard1.html' %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <h1 class="h3 mb-0 text-gray-800">Ajouter une nouvelle plante</h1>
+        <a href="{{ url_for('plantes') }}" class="btn btn-secondary">
+            <i class="fas fa-arrow-left"></i> Retour à la liste
+        </a>
+    </div>
+    
+    <div class="card shadow mb-4">
+        <div class="card-header py-3 bg-primary">
+            <h6 class="m-0 font-weight-bold text-white">Informations de la plante</h6>
+        </div>
+        <div class="card-body">
+            <form method="POST" action="{{ url_for('Ajouter') }}">
+                <div class="row">
+                    <!-- Colonne de gauche -->
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="parcelle_id">Parcelle *</label>
+                            <select class="form-control" id="parcelle_id" name="parcelle_id" required>
+                                <option value="">Sélectionnez une parcelle</option>
+                                {% for parcelle in parcelles %}
+                                <option value="{{ parcelle.id }}">Parcelle #{{ parcelle.id }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="type_plante">Type de plante *</label>
+                            <input type="text" class="form-control" id="type_plante" name="type_plante" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="date_plantation">Date de plantation *</label>
+                            <input type="date" class="form-control" id="date_plantation" name="date_plantation" required
+                                   value="{{ date_aujourdhui }}">
+                        </div>
+                    </div>
+
+                    <!-- Colonne de droite -->
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="date_recolte">Date de récolte</label>
+                            <input type="date" class="form-control" id="date_recolte" name="date_recolte">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="croissance">Niveau de croissance (%)</label>
+                            <input type="number" class="form-control" id="croissance" name="croissance" 
+                                   min="0" max="100" value="0">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="sante">État de santé</label>
+                            <select class="form-control" id="sante" name="sante">
+                                <option value="excellente">Excellente</option>
+                                <option value="bonne" selected>Bonne</option>
+                                <option value="moyenne">Moyenne</option>
+                                <option value="faible">Faible</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group form-check">
+                            <input type="checkbox" class="form-check-input" id="est_recoltee" name="est_recoltee">
+                            <label class="form-check-label" for="est_recoltee">Déjà récoltée</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mt-4">
+                    <button type="submit" class="btn btn-success">
+                        <i class="fas fa-save"></i> Enregistrer
+                    </button>
+                    <button type="reset" class="btn btn-outline-secondary ml-2">
+                        <i class="fas fa-undo"></i> Réinitialiser
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+$(document).ready(function() {
+    // Validation du formulaire
+    $('form').validate({
+        rules: {
+            parcelle_id: "required",
+            type_plante: "required",
+            date_plantation: "required"
+        },
+        messages: {
+            parcelle_id: "Ce champ est obligatoire",
+            type_plante: "Ce champ est obligatoire",
+            date_plantation: "La date est requise"
+        },
+        errorElement: 'div',
+        errorPlacement: function(error, element) {
+            error.addClass('invalid-feedback');
+            element.closest('.form-group').append(error);
+        },
+        highlight: function(element, errorClass, validClass) {
+            $(element).addClass('is-invalid');
+        },
+        unhighlight: function(element, errorClass, validClass) {
+            $(element).removeClass('is-invalid');
+        }
+    });
+
+    // Gestion de la date de récolte
+    $('#est_recoltee').change(function() {
+        if(this.checked) {
+            if(!$('#date_recolte').val()) {
+                $('#date_recolte').val('{{ date_aujourdhui }}');
+            }
+        }
+    });
+});
+</script>
+{% endblock %}

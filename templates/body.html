@@ -1,0 +1,677 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AGRICONNECT - Plateforme Agricole Intelligente</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #2e7d32;
+            --secondary: #7cb342;
+            --accent: #ffab00;
+            --light: #f5f5f5;
+            --dark: #263238;
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f9f9f9;
+            color: var(--dark);
+            overflow-x: hidden;
+        }
+        
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(rgba(0, 0, 0, 0.6), url('https://images.unsplash.com/photo-1500382017468-9049fed747ef?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80'));
+            background-size: cover;
+            background-position: center;
+            min-height: 90vh;
+            display: flex;
+            align-items: center;
+            color: white;
+            position: relative;
+        }
+        
+        .hero-content {
+            z-index: 2;
+        }
+        
+        .hero h1 {
+            font-weight: 700;
+            font-size: 3.5rem;
+            margin-bottom: 1.5rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .hero p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            max-width: 600px;
+        }
+        
+        .btn-primary {
+            background-color: var(--primary);
+            border: none;
+            padding: 12px 30px;
+            font-weight: 500;
+            border-radius: 50px;
+            transition: all 0.3s;
+        }
+        
+        .btn-primary:hover {
+            background-color: #1b5e20;
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+        
+        /* Features Section */
+        .features {
+            padding: 100px 0;
+            background-color: white;
+        }
+        
+        .section-title {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+        
+        .section-title h2 {
+            font-weight: 700;
+            color: var(--primary);
+            position: relative;
+            display: inline-block;
+            padding-bottom: 15px;
+        }
+        
+        .section-title h2:after {
+            content: '';
+            position: absolute;
+            width: 60px;
+            height: 3px;
+            background-color: var(--accent);
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        
+        .feature-card {
+            background: white;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            transition: all 0.3s;
+            text-align: center;
+            margin-bottom: 30px;
+            border-top: 4px solid transparent;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+            border-top-color: var(--primary);
+        }
+        
+        .feature-icon {
+            font-size: 2.5rem;
+            color: var(--primary);
+            margin-bottom: 20px;
+        }
+        
+        /* Stats Section */
+        .stats {
+            padding: 80px 0;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+        }
+        
+        .stat-item {
+            text-align: center;
+        }
+        
+        .stat-number {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+        
+        /* Testimonials */
+        .testimonials {
+            padding: 100px 0;
+            background-color: var(--light);
+        }
+        
+        .testimonial-card {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            margin: 15px;
+        }
+        
+        .testimonial-text {
+            font-style: italic;
+            margin-bottom: 20px;
+        }
+        
+        .testimonial-author {
+            font-weight: 600;
+            color: var(--primary);
+        }
+        
+        /* CTA Section */
+        .cta {
+            padding: 100px 0;
+            background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('https://images.unsplash.com/photo-1535696588143-945e1379f1b0?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80');
+            background-size: cover;
+            background-position: center;
+            color: white;
+            text-align: center;
+        }
+        
+        .cta h2 {
+            font-weight: 700;
+            margin-bottom: 30px;
+        }
+        
+        /* Footer */
+        footer {
+            background-color: var(--dark);
+            color: white;
+            padding: 60px 0 20px;
+        }
+        
+        .footer-links h5 {
+            color: var(--accent);
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+        
+        .footer-links ul {
+            list-style: none;
+            padding-left: 0;
+        }
+        
+        .footer-links li {
+            margin-bottom: 10px;
+        }
+        
+        .footer-links a {
+            color: #b0bec5;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+        
+        .footer-links a:hover {
+            color: white;
+            padding-left: 5px;
+        }
+        
+        .social-icons a {
+            display: inline-block;
+            width: 40px;
+            height: 40px;
+            background-color: rgba(255,255,255,0.1);
+            border-radius: 50%;
+            text-align: center;
+            line-height: 40px;
+            color: white;
+            margin-right: 10px;
+            transition: all 0.3s;
+        }
+        
+        .social-icons a:hover {
+            background-color: var(--accent);
+            transform: translateY(-5px);
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation (utilisez votre barre de navigation existante ici) -->
+    
+
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/nav/nav.css') }}">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+    .fa-leaf{
+        font-size:50px;
+        color: #2e7d32;
+    }
+    .fa-leaf:hover{
+        color: greenyellow;
+    }
+    nav{
+        height: 12%;
+
+        
+    }
+    .logo-text{
+        color:#2e7d32 !important;
+    }
+    .logo-text:hover{
+        color: greenyellow !important;
+    }
+</style>
+<nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+  <div class="container">
+    <a class="navbar-brand" href="#">
+      <span class="logo-text">AGRICONNECT</span>
+      <div class="logo">
+        <i class="fas fa-leaf"></i>
+    </div>
+    </a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item">
+          <a class="nav-link" href="#">
+            <i class="fas fa-home nav-icon"></i>
+            <span class="nav-text">Accueil</span>
+            <span class="nav-slider"></span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">
+            <i class="fas fa-chart-line nav-icon"></i>
+            <span class="nav-text">Dashboard</span>
+            <span class="nav-slider"></span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/Inscription">
+            <i class="fas fa-user nav-icon"></i>
+            <span class="nav-text">Login</span>
+            <span class="nav-slider"></span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">
+            <i class="fas fa-cog nav-icon"></i>
+            <span class="nav-text">Paramètres</span>
+            <span class="nav-slider"></span>
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+
+
+
+
+
+<style>
+    /* Style général */
+
+  
+  .navbar {
+    background: var(--bg-gradient);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    padding: 0.8rem 0;
+    font-family: 'Poppins', sans-serif;
+    transition: all 0.3s ease;
+  }
+  
+  .navbar.scrolled {
+    padding: 0.5rem 0;
+    background: rgba(67, 97, 238, 0.95);
+    backdrop-filter: blur(10px);
+  }
+  
+  /* Logo */
+  .navbar-brand {
+    font-weight: 700;
+    font-size: 1.8rem;
+    display: flex;
+    align-items: center;
+  }
+  
+  .logo-text {
+    color: var(--text-color);
+    transition: all 0.3s;
+  }
+  
+  .logo-dot {
+    color: #4cc9f0;
+    font-weight: 800;
+  }
+  
+  .navbar-brand:hover .logo-text {
+    transform: translateX(5px);
+  }
+  
+  /* Liens de navigation */
+  .nav-link {
+    color: var(--text-color);
+    font-weight: 500;
+    font-size: 1rem;
+    padding: 0.8rem 1.2rem !important;
+    margin: 0 0.2rem;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    overflow: hidden;
+  }
+  
+  .nav-icon {
+    font-size: 1.2rem;
+    margin-bottom: 0.3rem;
+    transition: all 0.3s;
+  }
+  
+  .nav-text {
+    position: relative;
+    transition: all 0.3s;
+  }
+  
+  .nav-slider {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    height: 3px;
+    background: #4cc9f0;
+    transition: all 0.3s;
+    border-radius: 3px 3px 0 0;
+  }
+  
+  .nav-link:hover .nav-slider {
+    width: 100%;
+  }
+  
+  .nav-link:hover .nav-icon {
+    transform: translateY(-5px);
+  }
+  
+  .nav-link:hover .nav-text {
+    transform: translateY(5px);
+  }
+  
+  /* Menu mobile */
+  .navbar-toggler {
+    border: none;
+    padding: 0.5rem;
+  }
+  
+  .navbar-toggler:focus {
+    box-shadow: none;
+  }
+  
+  /* Animation au scroll */
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  
+  .nav-item {
+    animation: fadeIn 0.5s ease forwards;
+    opacity: 0;
+  }
+  
+  .nav-item:nth-child(1) { animation-delay: 0.1s; }
+  .nav-item:nth-child(2) { animation-delay: 0.2s; }
+  .nav-item:nth-child(3) { animation-delay: 0.3s; }
+  .nav-item:nth-child(4) { animation-delay: 0.4s; }
+  
+  /* Responsive */
+  @media (max-width: 992px) {
+    .navbar-collapse {
+      background: rgba(67, 97, 238, 0.95);
+      backdrop-filter: blur(10px);
+      padding: 1rem;
+      border-radius: 0 0 10px 10px;
+      margin-top: 0.5rem;
+    }
+    
+    .nav-link {
+      padding: 0.8rem 0 !important;
+      margin: 0.3rem 0;
+    }
+    
+    .nav-slider {
+      display: none;
+    }
+  }
+</style>
+
+<script>
+    window.addEventListener('scroll', function() {
+        const navbar = document.querySelector('.navbar');
+        if (window.scrollY > 50) {
+          navbar.classList.add('scrolled');
+        } else {
+          navbar.classList.remove('scrolled');
+        }
+      });
+</script>
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-7 hero-content">
+                    <h1>AGRICONNECT<br>Lagriculture intelligente de demain</h1>
+                    <p>Plateforme intégrée de gestion agricole connectée pour optimiser vos rendements, suivre vos cultures en temps réel et prendre des décisions éclairées.</p>
+                    <a href="#" class="btn btn-primary btn-lg me-3"><i class="fas fa-play-circle me-2"></i>Voir la démo</a>
+                    <a href="/Inscription" class="btn btn-outline-light btn-lg"><i class="fas fa-user-plus me-2"></i>S'inscrire</a>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Features Section -->
+    <section class="features">
+        <div class="container">
+            <div class="section-title">
+                <h2>Nos Solutions Innovantes</h2>
+                <p class="text-muted">Découvrez comment AGRICONNECT révolutionne votre exploitation agricole</p>
+            </div>
+            
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-seedling"></i>
+                        </div>
+                        <h3>Suivi des Cultures</h3>
+                        <p>Surveillance en temps réel de la croissance de vos plantes avec analyse prédictive des rendements.</p>
+                    </div>
+                </div>
+                
+                <div class="col-md-4">
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-tint"></i>
+                        </div>
+                        <h3>Gestion de lIrrigation</h3>
+                        <p>Système intelligent dirrigation automatisée basée sur les besoins réels de vos cultures.</p>
+                    </div>
+                </div>
+                
+                <div class="col-md-4">
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                        <h3>Analytique Avancée</h3>
+                        <p>Tableaux de bord complets avec analyses et recommandations personnalisées pour votre exploitation.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Stats Section -->
+    <section class="stats">
+        <div class="container">
+            <div class="row text-center">
+                <div class="col-md-3">
+                    <div class="stat-item">
+                        <div class="stat-number">2500+</div>
+                        <div class="stat-text">Agriculteurs Connectés</div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="stat-item">
+                        <div class="stat-number">120K+</div>
+                        <div class="stat-text">Hectares Monitorés</div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="stat-item">
+                        <div class="stat-number">35%</div>
+                        <div class="stat-text">Rendement Amélioré</div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="stat-item">
+                        <div class="stat-number">24/7</div>
+                        <div class="stat-text">Support Technique</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Testimonials Section -->
+    <section class="testimonials">
+        <div class="container">
+            <div class="section-title">
+                <h2>Témoignages</h2>
+                <p class="text-muted">Ce que nos utilisateurs disent de nous</p>
+            </div>
+            
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="testimonial-card">
+                        <div class="testimonial-text">
+                            "AGRICONNECT a transformé ma façon de gérer mon exploitation. Les alertes en temps réel m'ont permis d'éviter des pertes importantes."
+                        </div>
+                        <div class="testimonial-author">- Jean Dupont, Céréalier</div>
+                    </div>
+                </div>
+                
+                <div class="col-md-4">
+                    <div class="testimonial-card">
+                        <div class="testimonial-text">
+                            "L'analyse des données de sol m'a permis d'optimiser mes apports en engrais, réduisant mes coûts de 20% tout en augmentant mes rendements."
+                        </div>
+                        <div class="testimonial-author">- Marie Leblanc, Viticultrice</div>
+                    </div>
+                </div>
+                
+                <div class="col-md-4">
+                    <div class="testimonial-card">
+                        <div class="testimonial-text">
+                            "La gestion centralisée de toutes mes parcelles sur une seule interface a considérablement simplifié mon travail quotidien."
+                        </div>
+                        <div class="testimonial-author">- Pierre Martin, Arboriculteur</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- CTA Section -->
+    <section class="cta">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-8">
+                    <h2>Prêt à révolutionner votre exploitation agricole ?</h2>
+                    <p class="mb-5">Rejoignez la communauté AGRICONNECT dès aujourd'hui et bénéficiez de 30 jours d'essai gratuit.</p>
+                    <a href="/Inscription" class="btn btn-primary btn-lg me-3">Commencer lessai gratuit</a>
+                    <a href="#" class="btn btn-outline-light btn-lg">Contactez-nous</a>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4 mb-4">
+                    <h4 class="text-white mb-4">AGRICONNECT</h4>
+                    <p>Plateforme leader en solutions connectées pour lagriculture moderne et durable.</p>
+                    <div class="social-icons mt-4">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+                
+                <div class="col-lg-2 col-md-6 mb-4">
+                    <div class="footer-links">
+                        <h5>Solutions</h5>
+                        <ul>
+                            <li><a href="#">Suivi des Cultures</a></li>
+                            <li><a href="#">Gestion d'Irrigation</a></li>
+                            <li><a href="#">Analyse des Sols</a></li>
+                            <li><a href="#">Prévisions Météo</a></li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="col-lg-2 col-md-6 mb-4">
+                    <div class="footer-links">
+                        <h5>Ressources</h5>
+                        <ul>
+                            <li><a href="#">Documentation</a></li>
+                            <li><a href="#">Blog</a></li>
+                            <li><a href="#">FAQ</a></li>
+                            <li><a href="#">Tutoriels</a></li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <div class="footer-links">
+                        <h5>Contact</h5>
+                        <ul>
+                            <li><i class="fas fa-map-marker-alt me-2"></i> 123 Rue Agricole, 75000 Paris</li>
+                            <li><i class="fas fa-phone me-2"></i> +33 1 23 45 67 89</li>
+                            <li><i class="fas fa-envelope me-2"></i> contact@agriconnect.fr</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <hr class="mt-4 mb-4" style="border-color: rgba(255,255,255,0.1);">
+            
+            <div class="row">
+                <div class="col-md-6 text-center text-md-start">
+                    <p class="mb-0">&copy; 2023 AGRICONNECT. Tous droits réservés.</p>
+                </div>
+                <div class="col-md-6 text-center text-md-end">
+                    <p class="mb-0">
+                        <a href="#" class="text-white-50 me-3">Mentions légales</a>
+                        <a href="#" class="text-white-50">Politique de confidentialité</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Animation au scroll
+        window.addEventListener('scroll', function() {
+            const navbar = document.querySelector('.navbar');
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+    </script>
+</body>
+</html>

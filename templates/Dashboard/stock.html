@@ -1,0 +1,99 @@
+{% include '/Dashboard/dashboard1.html' %}
+{% block content %}
+<div class="container mt-4">
+    <h2 class="mb-4">Gestion du Stock</h2>
+
+    <!-- Formulaire d'ajout au stock -->
+    <form method="POST" class="card p-4 mb-5">
+        <div class="row mb-3">
+            <div class="col-md-4">
+                <label for="type_plante" class="form-label">Type de plante</label>
+                <select class="form-select" name="type_plante" id="type_plante" required>
+                    <option value="">-- Choisir --</option>
+                    {% for plante in plantes_disponibles %}
+                        <option value="{{ plante.type_plante }}">{{ plante.type_plante }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="col-md-4">
+                <label for="date_recolte" class="form-label">Date de récolte</label>
+                <select class="form-select" name="date_recolte" id="date_recolte" required>
+                    <option value="">-- Choisir une date --</option>
+                </select>
+            </div>
+
+            <div class="col-md-4">
+                <label for="qualite" class="form-label">Qualité</label>
+                <select class="form-select" name="qualite" required>
+                    <option value="Excellente">Excellente</option>
+                    <option value="Bonne">Bonne</option>
+                    <option value="Moyenne">Moyenne</option>
+                    <option value="Médiocre">Médiocre</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="row mb-3">
+            <div class="col-md-4">
+                <label for="quantite" class="form-label">Quantité (kg)</label>
+                <input type="number" step="0.01" min="0" name="quantite" class="form-control" required>
+            </div>
+            <div class="col-md-4">
+                <label for="prix_base" class="form-label">Prix de base (F CFA)</label>
+                <input type="number" step="0.01" min="0" name="prix_base" class="form-control" required>
+            </div>
+        </div>
+
+        <button type="submit" class="btn btn-success mt-2">Ajouter au stock</button>
+    </form>
+
+    <!-- Tableau du stock -->
+    <h4>Stock actuel</h4>
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th>Type de plante</th>
+                <th>Qualité</th>
+                <th>Date de récolte</th>
+                <th>Quantité initiale (kg)</th>
+                <th>Quantité restante (kg)</th>
+                <th>Prix de base (F CFA)</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for ligne in stock %}
+            <tr>
+                <td>{{ ligne.type_plante }}</td>
+                <td>{{ ligne.qualite }}</td>
+                <td>{{ ligne.date_recolte.strftime('%Y-%m-%d') }}</td>
+                <td>{{ ligne.quantite }}</td>
+                <td>{{ ligne.quantite_restante }}</td>
+                <td>{{ ligne.prix_base }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<!-- Script JS pour lier les dates en fonction du type de plante -->
+<script>
+    const datesParPlante = {{ dates_par_plante | tojson }};
+    const typePlanteSelect = document.getElementById("type_plante");
+    const dateRecolteSelect = document.getElementById("date_recolte");
+
+    typePlanteSelect.addEventListener("change", () => {
+        const type = typePlanteSelect.value;
+        dateRecolteSelect.innerHTML = "<option value=''>-- Choisir une date --</option>";
+
+        if (datesParPlante[type]) {
+            datesParPlante[type].forEach(date => {
+                const option = document.createElement("option");
+                option.value = date;
+                option.textContent = date;
+                dateRecolteSelect.appendChild(option);
+            });
+        }
+    });
+</script>
+{% endblock %}

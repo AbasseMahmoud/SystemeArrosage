@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestion de Culture</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .section { margin-bottom: 30px; border: 1px solid #ddd; padding: 15px; border-radius: 5px; }
+        h1, h2 { color: #2c3e50; }
+        table { width: 100%; border-collapse: collapse; margin-bottom: 15px; }
+        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+        th { background-color: #f2f2f2; }
+        .alert { padding: 10px; margin: 10px 0; border-radius: 4px; }
+        .alert-success { background-color: #d4edda; color: #155724; }
+        .alert-warning { background-color: #fff3cd; color: #856404; }
+        form { margin: 15px 0; }
+        input, select { margin: 5px 0; padding: 8px; }
+        button { background-color: #4CAF50; color: white; padding: 10px 15px; border: none; cursor: pointer; }
+        button:hover { background-color: #45a049; }
+    </style>
+</head>
+<body>
+    <h1>Système de Gestion de Culture</h1>
+    
+    <div class="section">
+        <h2>État du Système</h2>
+        <p>Niveau d'eau actuel: <strong>{{ "%.1f"|format(niveau_eau) }}%</strong></p>
+        <p>Statut arrosage: 
+            <strong class="{% if arrosage_actif %}text-danger{% else %}text-success{% endif %}">
+
+                {% if arrosage_actif %}ACTIVÉ (irrigation en cours){% else %}DÉSACTIVÉ{% endif %}
+            </strong>
+        </p>
+        <form action="{{ url_for('nouvelle_journee') }}" method="post">
+            <button type="submit">Simuler une nouvelle journée</button>
+        </form>
+    </div>
+    
+    <div class="section">
+        <h2>Gestion des Parcelles</h2>
+        
+        <h3>Ajouter une nouvelle parcelle</h3>
+        <form action="{{ url_for('ajouter_parcelle') }}" method="post">
+            <label for="taille">Taille (m²):</label>
+            <input type="number" id="taille" name="taille" step="0.1" min="1" required>
+            <button type="submit">Ajouter Parcelle</button>
+        </form>
+        
+        <h3>Ajouter des plantes</h3>
+        <form action="{{ url_for('ajouter_plantes') }}" method="post">
+            <label for="parcelle_id">Parcelle:</label>
+            <select id="parcelle_id" name="parcelle_id" required>
+                {% for parcelle in parcelles %}
+                    <option value="{{ parcelle.id }}">Parcelle {{ parcelle.id }} ({{ parcelle.taille }}m²)</option>
+                {% endfor %}
+            </select>
+            
+            <label for="type_plante">Type de plante:</label>
+            <input type="text" id="type_plante" name="type_plante" required>
+            
+            <label for="nombre">Nombre:</label>
+            <input type="number" id="nombre" name="nombre" min="1" required>
+            
+            <button type="submit">Ajouter Plantes</button>
+        </form>
+        
+        <h3>Parcelles existantes</h3>
+        {% if not parcelles %}
+            <p>Aucune parcelle créée</p>
+        {% else %}
+            {% for parcelle in parcelles %}
+                <div style="margin-bottom: 20px;">
+                    <h4>Parcelle {{ parcelle.id }} ({{ parcelle.taille }}m²)</h4>
+                    <a href="{{ url_for('recolter_parcelle', parcelle_id=parcelle.id) }}" class="button">Récolter cette parcelle</a>
+                    
+                    <table>
+                        <tr>
+                            <th>Type</th>
+                            <th>Plantée le</th>
+                            <th>Croissance</th>
+                            <th>Santé</th>
+                            <th>État</th>
+                        </tr>
+                        {% for plante in parcelle.plantes %}
+                            <tr>
+                                <td>{{ plante.type_plante }}</td>
+                                <td>{{ plante.date_plantation }}</td>
+                                <td>{{ "%.1f"|format(plante.croissance) }}%</td>
+                                <td>{{ "%.1f"|format(plante.sante) }}%</td>
+                                <td>{% if plante.est_recoltee %}Récoltée le {{ plante.date_recolte }}{% else %}En croissance{% endif %}</td>
+                            </tr>
+                        {% endfor %}
+                    </table>
+                </div>
+            {% endfor %}
+        {% endif %}
+    </div>
+    
+    <div class="section">
+        <h2>Gestion des Ventes</h2>
+        
+        <h3>Vendre des produits</h3>
+        <form action="{{ url_for('vendre_produits') }}" method="post">
+            <label for="type_plante">Type de produit:</label>
+            <select id="type_plante" name="type_plante" required>
+                {% for type_plante in stock.keys() %}
+                    <option value="{{ type_plante }}">{{ type_plante }} ({{ stock[type_plante]|length }} disponibles)</option>
+                {% endfor %}
+            </select>
+            
+            <label for="quantite">Quantité:</label>
+            <input type="number" id="quantite" name="quantite" step="0.1" min="0.1" required>
+            
+            <button type="submit">Vendre</button>
+        </form>
+        
+        <h3>Stock actuel</h3>
+        {% if not stock %}
+            <p>Aucun produit en stock</p>
+        {% else %}
+            <table>
+                <tr>
+                    <th>Type</th>
+                    <th>Quantité</th>
+                    <th>Qualité moyenne</th>
+                    <th>Prix moyen/kg</th>
+                </tr>
+                {% for type_plante, produits in stock.items() %}
+                    <tr>
+                        <td>{{ type_plante }}</td>
+                        <td>{{ produits|length }}</td>
+                        <td>{{ "%.1f"|format((produits|sum(attribute='qualite')) / produits|length * 100) }}%</td>
+                        <td>{{ "%.2f"|format((produits|sum(attribute='prix_actuel')) / produits|length) }}</td>
+                    </tr>
+                {% endfor %}
+            </table>
+        {% endif %}
+        
+        <h3>Historique des ventes</h3>
+        {% if not ventes %}
+            <p>Aucune vente enregistrée</p>
+        {% else %}
+            <table>
+                <tr>
+                    <th>Date</th>
+                    <th>Type</th>
+                    <th>Quantité</th>
+                    <th>Montant</th>
+                </tr>
+                {% for vente in ventes %}
+                    <tr>
+                        <td>{{ vente['date'] }}</td>
+                        <td>{{ vente['type'] }}</td>
+                        <td>{{ vente['quantite'] }}</td>
+                        <td>{{ "%.2f"|format(vente['montant']) }}</td>
+                    </tr>
+                {% endfor %}
+                <tr style="font-weight: bold;">
+                    <td colspan="3">TOTAL</td>
+                    <td>{{ "%.2f"|format(ventes|sum(attribute='montant')) }}</td>
+                </tr>
+            </table>
+        {% endif %}
+    </div>
+</body>
+</html>

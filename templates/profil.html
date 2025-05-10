@@ -1,0 +1,25 @@
+<!-- profil.html -->
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+    <h1>Mon Profil</h1>
+    
+    <div class="card">
+        <div class="card-body">
+            <h5 class="card-title">{{ current_user.name }}</h5>
+            <p class="card-text">
+                <strong>Email:</strong> {{ current_user.email}}<br>
+                <strong>Téléphone:</strong> {{ current_user.phone }}<br>
+                
+            </p>
+            
+            <h5>Informations supplémentaires:</h5>
+            {% if user_data %}
+                <p>Date d'inscription: {{ user_data.get('created_at', 'Non disponible') }}</p>
+                <!-- Ajoutez d'autres champs selon votre table users -->
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

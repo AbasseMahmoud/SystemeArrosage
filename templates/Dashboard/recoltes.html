@@ -1,0 +1,223 @@
+{% include "Dashboard/dashboard1.html" %}
+
+{% block content %}
+<div class="container-fluid">
+    <!-- Titre et boutons -->
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <h1 class="h3 mb-0 text-gray-800">Gestion des Récoltes</h1>
+        <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm" data-toggle="modal" data-target="#newHarvestModal">
+            <i class="fas fa-plus fa-sm text-white-50"></i> Nouvelle Récolte
+        </a>
+    </div>
+
+    <!-- Messages flash -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <div class="alert alert-{{ category }} alert-dismissible fade show">
+                    {{ message }}
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
+    <!-- Cartes statistiques -->
+    <div class="row">
+        <!-- Carte plantes à récolter -->
+        <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card border-left-warning shadow h-100 py-2">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
+                                Plantes à Récolter</div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">
+                                {{ plantes|length if plantes else 0 }}
+                            </div>
+                        </div>
+                        <div class="col-auto">
+                            <i class="fas fa-seedling fa-2x text-gray-300"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Carte plantes récoltées -->
+        <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card border-left-success shadow h-100 py-2">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
+                                Plantes Récoltées</div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">
+                                {{ recoltees|length if recoltees else 0 }}
+                            </div>
+                        </div>
+                        <div class="col-auto">
+                            <i class="fas fa-tractor fa-2x text-gray-300"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Tableau des récoltes récentes -->
+    <div class="card shadow mb-4">
+        <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+            <h6 class="m-0 font-weight-bold text-primary">Historique des Récoltes</h6>
+            <div class="dropdown no-arrow">
+                <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" 
+                   data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
+                </a>
+                <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in" 
+                     aria-labelledby="dropdownMenuLink">
+                    <div class="dropdown-header">Options :</div>
+                    <a class="dropdown-item" href="#" data-toggle="modal" data-target="#exportModal">
+                        <i class="fas fa-file-export fa-sm fa-fw mr-2 text-gray-400"></i>
+                        Exporter
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Plante</th>
+                            <th>Quantité (kg)</th>
+                            <th>Qualité</th>
+                            <th>En Stock</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for rec in historique %}
+                        <tr>
+                            <td>{{ rec.date_recolte.strftime('%d/%m/%Y') }}</td>
+                            <td>{{ rec.type_plante }}</td>
+                            <td>{{ "%.2f"|format(rec.quantite) }}</td>
+                            <td>
+                                <span class="badge badge-{{ 
+                                    'success' if rec.qualite == 'excellente'
+                                    else 'primary' if rec.qualite == 'bonne'
+                                    else 'warning' if rec.qualite == 'moyenne'
+                                    else 'danger'
+                                }}">
+                                    {{ rec.qualite|capitalize }}
+                                </span>
+                            </td>
+                            <td>
+                                {% if rec.en_stock > 0 %}
+                                    <span class="badge badge-success">Oui</span>
+                                {% else %}
+                                    <span class="badge badge-secondary">Non</span>
+                                {% endif %}
+                            </td>
+                            <td>
+                                <a href="#" class="btn btn-sm btn-info" title="Détails">
+                                    <i class="fas fa-eye"></i>
+                                </a>
+                                <a href="#" class="btn btn-sm btn-warning" title="Modifier">
+                                    <i class="fas fa-edit"></i>
+                                </a>
+                            </td>
+                        </tr>
+                        {% else %}
+                        <tr>
+                            <td colspan="6" class="text-center">Aucune récolte enregistrée</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Nouvelle Récolte -->
+    <div class="modal fade" id="newHarvestModal" tabindex="-1" role="dialog" aria-labelledby="newHarvestModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="newHarvestModalLabel">Nouvelle Récolte</h5>
+                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <form method="POST" action="{{ url_for('recoltes') }}">
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="plante_id">Plante</label>
+                            <select class="form-control" id="plante_id" name="plante_id" required>
+                                <option value="">Sélectionner une plante...</option>
+                                {% for plante in plantes %}
+                                <option value="{{ plante.id }}">{{ plante.type_plante }}</option>
+                                {% else %}
+                                <option value="" disabled>Aucune plante disponible</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="quantite">Quantité (kg)</label>
+                            <input type="number" step="0.01" min="0.01" class="form-control" 
+                                   id="quantite" name="quantite" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="date_recolte">Date de récolte</label>
+                            <input type="date" class="form-control" id="date_recolte" 
+                                   name="date_recolte" value="{{ current_date }}">
+                        </div>
+                        <div class="form-group">
+                            <label for="qualite">Qualité</label>
+                            <select class="form-control" id="qualite" name="qualite" required>
+                                <option value="excellente">Excellente</option>
+                                <option value="bonne" selected>Bonne</option>
+                                <option value="moyenne">Moyenne</option>
+                                <option value="faible">Faible</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-secondary" type="button" data-dismiss="modal">Annuler</button>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-save"></i> Enregistrer
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<!-- Page level plugins -->
+<script src="{{ url_for('static', filename='vendor/datatables/jquery.dataTables.min.js') }}"></script>
+<script src="{{ url_for('static', filename='vendor/datatables/dataTables.bootstrap4.min.js') }}"></script>
+
+<!-- Page level custom scripts -->
+<script>
+$(document).ready(function() {
+    // Initialisation de DataTable
+    $('#dataTable').DataTable({
+        "order": [[0, "desc"]],
+        "language": {
+            "url": "//cdn.datatables.net/plug-ins/1.10.20/i18n/French.json"
+        }
+    });
+
+    // Gestion de la date par défaut
+    if (!$('#date_recolte').val()) {
+        $('#date_recolte').val('{{ current_date }}');
+    }
+});
+</script>
+{% endblock %}

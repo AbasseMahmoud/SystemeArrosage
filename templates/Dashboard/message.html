@@ -1,0 +1,45 @@
+{% include 'Dashboard/dashboard1.html'%}
+
+
+{% block content %}
+<div class="container">
+    <h1 class="my-4">Messages reçus</h1>
+    
+    <div class="table-responsive">
+        <table class="table table-striped table-bordered">
+            <thead class="thead-dark">
+                <tr>
+                    <th>Nom</th>
+                    <th>Email</th>
+                    <th>Option</th>
+                    <th>Message</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for message in messages %}
+                <tr>
+                    <td>{{ message.nom }}</td>
+                    <td>{{ message.email }}</td>
+                    <td>{{ message.options }}</td>
+                    <td>{{ message.message|truncate(20) }}</td>  <!-- Limite la longueur du message -->
+                    <td>
+                        <a href="#" class="btn btn-sm btn-danger" title="Supprimer">
+                            <i class="fas fa-trash"></i>
+                        </a>
+                        <a href="#" class="btn btn-sm btn-success" title="Voir détails">
+                            <i class="fas fa-eye"></i>
+                        </a>
+                    </td>
+                </tr>
+                {% else %}
+                <tr>
+                    <td colspan="5" class="text-center ">Aucun message reçu</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+   
+{% endblock %}
